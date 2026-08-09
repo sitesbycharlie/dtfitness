@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DT Fitness | Donegal Town</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #E8520A;
+  --orange-dim: #b33e08;
+  --black: #0a0a0a;
+  --dark: #111;
+  --mid: #1a1a1a;
+  --white: #fff;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── DEMO BANNER ── */
+.demo-banner {
+  position: sticky; top: 0; z-index: 300;
+  background: #1a0800;
+  border-bottom: 2px solid var(--orange);
+  height: 44px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 32px;
+}
+.demo-banner .pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--orange); flex-shrink: 0;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+.demo-banner p {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,.6);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.demo-banner p strong { color: var(--orange); }
+.demo-banner a {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--orange);
+  text-decoration: none; white-space: nowrap;
+  border-bottom: 1px solid rgba(232,82,10,.35); padding-bottom: 1px;
+}
+
+/* ── NAV ── */
+.site-nav {
+  position: sticky; top: 44px; z-index: 299;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  background: rgba(10,10,10,.98);
+  border-bottom: 1px solid rgba(232,82,10,.12);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.9rem; letter-spacing: 2px;
+  color: var(--white); text-decoration: none;
+}
+.nav-logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  text-decoration: none; font-size: 0.72rem; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(255,255,255,.65); transition: color .2s;
+}
+.nav-links a:hover { color: var(--orange); }
+.nav-cta {
+  background: var(--orange); color: var(--white) !important;
+  padding: 9px 20px; transition: background .2s !important;
+}
+.nav-cta:hover { background: var(--orange-dim) !important; }
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; cursor: pointer; border: none; background: none;
+  width: 44px; height: 44px; padding: 8px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--white);
+  transition: transform .3s, opacity .3s;
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+.mobile-drawer {
+  visibility: hidden;
+  position: fixed; inset: 0; z-index: 400;
+  pointer-events: none;
+}
+.drawer-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.8);
+  opacity: 0; transition: opacity .3s;
+}
+.drawer-panel {
+  position: absolute; top: 0; right: 0;
+  width: 76%; max-width: 290px; height: 100%;
+  background: #0d0d0d;
+  border-left: 1px solid rgba(232,82,10,.2);
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column;
+  padding: 96px 32px 48px;
+}
+.drawer-panel a {
+  display: block; text-decoration: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem; letter-spacing: 2px;
+  color: rgba(255,255,255,.5);
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  transition: color .2s;
+}
+.drawer-panel a:first-of-type { border-top: 1px solid rgba(255,255,255,.06); }
+.drawer-panel a:hover, .drawer-panel a:active { color: var(--white); }
+.drawer-panel .drawer-cta {
+  margin-top: 28px; background: var(--orange);
+  color: var(--white) !important; text-align: center;
+  padding: 16px; font-size: 1.5rem; border: none;
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.mobile-drawer.open { visibility: visible; pointer-events: all; }
+.mobile-drawer.open .drawer-overlay { opacity: 1; }
+.mobile-drawer.open .drawer-panel { transform: translateX(0); }
+
+/* ── SHARED ── */
+.section-label {
+  font-size: .62rem; font-weight: 800; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
+}
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: .95; letter-spacing: 1px; text-transform: uppercase;
+}
+.btn {
+  display: inline-block; text-decoration: none;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  font-size: .72rem; padding: 13px 28px;
+  transition: all .22s; cursor: pointer; border: none;
+}
+.btn-primary {
+  background: var(--orange); color: var(--white);
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.btn-primary:hover { background: var(--orange-dim); }
+.btn-outline {
+  background: transparent; color: var(--white);
+  border: 1.5px solid rgba(255,255,255,.25);
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  position: relative;
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,.5) 50%, rgba(10,10,10,.15) 100%),
+    linear-gradient(105deg, rgba(232,82,10,.15) 0%, transparent 55%);
+  background-color: #1a0800;
+}
+.hero-deco {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+}
+.hero-deco::before {
+  content: '';
+  position: absolute; right: -80px; top: -80px;
+  width: 600px; height: 600px;
+  border: 100px solid rgba(232,82,10,.06);
+  transform: rotate(15deg); border-radius: 60px;
+}
+.hero-deco::after {
+  content: '';
+  position: absolute; right: 60px; top: 60px;
+  width: 420px; height: 420px;
+  border: 2px solid rgba(232,82,10,.15);
+  transform: rotate(15deg); border-radius: 40px;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 48px 80px;
+  max-width: 860px;
+}
+.hero-eyebrow {
+  font-size: .62rem; font-weight: 800; letter-spacing: 6px;
+  text-transform: uppercase; color: var(--orange);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block;
+  width: 28px; height: 2px; background: var(--orange);
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4.5rem, 16vw, 10rem);
+  line-height: .88; letter-spacing: -1px;
+  color: var(--white); text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--orange); }
+.hero-sub {
+  font-size: .9rem; font-weight: 600;
+  color: rgba(255,255,255,.5); letter-spacing: .3px;
+  margin-bottom: 32px; max-width: 360px; line-height: 1.65;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--orange); padding: 9px 0;
+  overflow: hidden; white-space: nowrap;
+}
+.ticker-inner {
+  display: inline-flex;
+  animation: ticker 22s linear infinite;
+}
+.ticker-inner span {
+  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-size: .78rem; letter-spacing: 3px; padding: 0 28px; text-transform: uppercase;
+}
+.ticker-inner .dot { color: rgba(255,255,255,.4); padding: 0 4px; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── ABOUT ── */
+.about-section { padding: 64px 72px; }
+.about {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 56px; align-items: center;
+}
+.about-visual { position: relative; height: 380px; }
+.about-img-main {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #1a0800, #0d0d0d);
+  position: relative; overflow: hidden;
+}
+.about-img-main::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(232,82,10,.12), transparent 70%);
+}
+.about-visual::before {
+  content: ''; position: absolute;
+  left: -18px; top: 40px; bottom: 40px;
+  width: 3px; background: var(--orange);
+}
+.about-visual::after {
+  content: ''; position: absolute;
+  bottom: -18px; right: -18px;
+  width: 160px; height: 160px;
+  background: var(--orange); z-index: -1;
+}
+.about-text h2 { margin-bottom: 16px; }
+.about-text p {
+  color: rgba(255,255,255,.6); font-size: .88rem;
+  line-height: 1.7; font-weight: 600; margin-bottom: 12px;
+}
+.about-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0; margin-top: 28px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.stat {
+  border-left: none;
+  padding: 20px 0 0;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+.stat:last-child { border-right: none; }
+.stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem; color: var(--white); line-height: 1;
+}
+.stat-label {
+  font-size: .6rem; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 4px;
+}
+
+/* ── LEGITFIT ACTIONS ── */
+.actions-section { background: var(--dark); padding: 56px 72px; }
+.actions-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 32px; gap: 24px; flex-wrap: wrap;
+}
+.actions-header p {
+  color: rgba(255,255,255,.4); font-size: .82rem; font-weight: 600;
+  max-width: 280px; line-height: 1.6; text-align: right;
+}
+.action-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+.action-card {
+  background: var(--mid); padding: 32px 28px;
+  position: relative; overflow: hidden;
+  text-decoration: none; color: var(--white);
+  display: block; transition: transform .3s;
+}
+.action-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--orange);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.action-card:hover::after { transform: scaleX(1); }
+.action-card:hover { transform: translateY(-3px); }
+.card-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem; color: rgba(232,82,10,.1);
+  position: absolute; top: 12px; right: 16px;
+  line-height: 1; pointer-events: none;
+}
+.action-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: 1px; margin-bottom: 8px;
+  margin-top: 36px;
+}
+.action-card p {
+  font-size: .82rem; color: rgba(255,255,255,.5);
+  line-height: 1.6; font-weight: 600; margin-bottom: 20px;
+}
+.card-arrow {
+  font-size: .68rem; font-weight: 800; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--orange);
+  display: flex; align-items: center; gap: 8px;
+  transition: gap .2s;
+}
+.action-card:hover .card-arrow { gap: 14px; }
+
+/* ── REVIEWS ── */
+.reviews-section { background: var(--black); padding: 56px 72px; overflow: hidden; }
+.reviews-carousel { margin-top: 48px; }
+.reviews-track-wrap { overflow: hidden; }
+.reviews-track {
+  display: flex;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.review-card {
+  flex: 0 0 calc(33.333% - 2px);
+  width: calc(33.333% - 2px);
+  margin-right: 2px;
+  background: var(--mid);
+  padding: 24px 22px;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.review-card::before {
+  content: '"';
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 5rem; color: rgba(232,82,10,.07);
+  position: absolute; top: -4px; right: 12px;
+  line-height: 1; pointer-events: none;
+}
+.stars { display: flex; gap: 2px; margin-bottom: 10px; }
+.stars span { color: var(--orange); font-size: .8rem; }
+.review-text {
+  font-size: .82rem; line-height: 1.65;
+  color: rgba(255,255,255,.7); font-weight: 600;
+  font-style: italic; position: relative; z-index: 1;
+}
+.carousel-controls {
+  display: flex; align-items: center; gap: 10px; margin-top: 24px;
+}
+.carousel-btn {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--mid); border: 1px solid rgba(255,255,255,.1);
+  color: var(--white); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, border-color .2s;
+  clip-path: polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,7px 100%,0 calc(100% - 7px));
+}
+.carousel-btn:hover { background: var(--orange); border-color: var(--orange); }
+.carousel-btn:active { transform: scale(.95); }
+.carousel-dots { display: flex; gap: 7px; align-items: center; flex: 1; }
+.carousel-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  transition: background .3s, width .3s, border-radius .3s;
+  cursor: pointer; border: none; padding: 0;
+}
+.carousel-dot.active { background: var(--orange); width: 20px; border-radius: 3px; }
+.reviews-rating {
+  margin-left: auto; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+}
+.r-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem; color: var(--white); line-height: 1;
+}
+.r-stars { color: var(--orange); font-size: .8rem; letter-spacing: 2px; }
+.r-label {
+  font-size: .65rem; color: rgba(255,255,255,.35);
+  letter-spacing: 1px; text-transform: uppercase; font-weight: 700;
+}
+
+/* ── INFO BAR ── */
+.info-bar {
+  background: var(--orange); padding: 48px 72px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px; align-items: start;
+}
+.info-item h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem; letter-spacing: 3px;
+  margin-bottom: 14px; color: rgba(255,255,255,.55);
+}
+.hours-list { list-style: none; }
+.hours-list li {
+  display: flex; justify-content: space-between;
+  font-size: .8rem; font-weight: 700;
+  padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.85);
+}
+.hours-list li.today { color: var(--white); font-weight: 900; }
+.info-contact p {
+  font-size: .85rem; font-weight: 700; margin-bottom: 6px;
+  color: rgba(255,255,255,.88);
+}
+.info-contact a { color: var(--white); text-decoration: none; font-weight: 900; }
+.info-contact-btns { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+.info-address p {
+  font-size: .85rem; font-weight: 700;
+  color: rgba(255,255,255,.88); line-height: 1.75;
+}
+.directions-link {
+  display: inline-block; margin-top: 14px;
+  font-size: .68rem; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,.7);
+  text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.3);
+  padding-bottom: 2px;
+}
+
+/* ── INSTAGRAM STRIP ── */
+.insta-strip {
+  background: var(--dark); padding: 36px 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; flex-wrap: wrap;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.social-platforms {
+  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+}
+.social-divider {
+  width: 1px; height: 40px;
+  background: rgba(255,255,255,.1);
+}
+.fb-icon {
+  background: transparent !important;
+  border: 1.5px solid rgba(255,255,255,.15);
+}
+.fb-btn {
+  background: #1877F2;
+  color: white;
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.fb-btn:hover { background: #1464d0; }
+  display: flex; align-items: center; justify-content: space-between;
+.insta-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.insta-icon svg { width: 26px; height: 26px; fill: white; }
+.insta-text p {
+  font-size: .62rem; font-weight: 800; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 2px;
+}
+.insta-text strong {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem; letter-spacing: 2px; color: var(--white);
+}
+.insta-right { display: flex; gap: 10px; flex-wrap: wrap; }
+.insta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none; font-weight: 800; font-size: .7rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 12px 24px; transition: all .22s;
+}
+.insta-btn-primary {
+  background: linear-gradient(135deg, #e6683c, #cc2366);
+  color: white;
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.insta-btn-primary:hover { opacity: .85; }
+.insta-btn-outline {
+  color: var(--white); border: 1.5px solid rgba(255,255,255,.2);
+  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.insta-btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+/* ── FOOTER ── */
+footer {
+  background: #080808; padding: 40px 72px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.7rem; letter-spacing: 2px;
+  color: var(--white); text-decoration: none;
+}
+.footer-logo span { color: var(--orange); }
+footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px; }
+.footer-links { display: flex; gap: 20px; align-items: center; }
+.footer-links a {
+  font-size: .72rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+  text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: var(--orange); }
+.footer-insta {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, #e6683c, #cc2366);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; transition: opacity .2s;
+}
+.footer-insta:hover { opacity: .8; }
+.footer-insta svg { width: 16px; height: 16px; fill: white; }
+.footer-fb { background: #1877F2; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .site-nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .about-section, .actions-section, .reviews-section { padding: 48px 20px; }
+  .about { grid-template-columns: 1fr; gap: 28px; }
+  .about-visual { height: 220px; }
+  .about-text { text-align: center; }
+  .about-stats { border-top: 1px solid rgba(255,255,255,.08); }
+  .action-cards { grid-template-columns: 1fr; }
+  .info-bar { grid-template-columns: 1fr; padding: 36px 20px; gap: 28px; }
+  .insta-strip { padding: 28px 20px; }
+  .social-platforms { gap: 20px; }
+  .social-divider { display: none; }
+  .insta-right { width: 100%; }
+  .insta-btn { flex: 1; justify-content: center; }
+  footer { flex-direction: column; gap: 14px; text-align: center; padding: 28px 20px; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+@media (max-width: 768px) {
+  .demo-banner { padding: 0 16px; }
+  .demo-banner p { font-size: .65rem; letter-spacing: 1px; }
+  .hero-content { padding: 0 24px 72px; }
+  .review-card {
+    flex: 0 0 calc(100vw - 48px);
+    width: calc(100vw - 48px);
+    margin-right: 12px;
+  }
+  .reviews-rating { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div class="demo-banner">
+  <div class="pulse"></div>
+  <p>This is a <strong>demo site</strong> not yet live</p>
+  <a href="mailto:sitesbycharlie@gmail.com">Get in touch</a>
+</div>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="#" class="nav-logo">DT <span>FITNESS</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#schedule">Training</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://app.legitfit.com/auth/login" target="_blank" class="nav-cta">Join Now</a></li>
+  </ul>
+  <button class="hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer-panel">
+    <a href="#about" class="drawer-link">About</a>
+    <a href="#schedule" class="drawer-link">Training</a>
+    <a href="#reviews" class="drawer-link">Reviews</a>
+    <a href="#contact" class="drawer-link">Contact</a>
+    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="drawer-link">Instagram</a>
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="drawer-cta">Join Now</a>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-content">
+    <h1>Witness<br>The <span>Fitness</span></h1>
+    <p class="hero-sub">Top quality equipment. Motivational atmosphere. Staff who actually give a damn. Donegal's home for serious training.</p>
+    <div class="hero-actions">
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary">Join Now</a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline">View Schedule</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span>DT FITNESS</span><span class="dot">✦</span>
+    <span>5.0 ★★★★★</span><span class="dot">✦</span>
+    <span>DONEGAL TOWN</span><span class="dot">✦</span>
+    <span>WITNESS THE FITNESS</span><span class="dot">✦</span>
+    <span>OPEN 6AM DAILY</span><span class="dot">✦</span>
+    <span>PERSONAL TRAINING</span><span class="dot">✦</span>
+    <span>GROUP CLASSES</span><span class="dot">✦</span>
+    <span>FREE LOCKERS</span><span class="dot">✦</span>
+    <span>DT FITNESS</span><span class="dot">✦</span>
+    <span>5.0 ★★★★★</span><span class="dot">✦</span>
+    <span>DONEGAL TOWN</span><span class="dot">✦</span>
+    <span>WITNESS THE FITNESS</span><span class="dot">✦</span>
+    <span>OPEN 6AM DAILY</span><span class="dot">✦</span>
+    <span>PERSONAL TRAINING</span><span class="dot">✦</span>
+    <span>GROUP CLASSES</span><span class="dot">✦</span>
+    <span>FREE LOCKERS</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about fade-up">
+    <div class="about-visual">
+      <div class="about-img-main">
+        <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.25" viewBox="0 0 600 520" preserveAspectRatio="xMidYMid slice">
+          <rect x="40" y="180" width="8" height="280" fill="#E8520A" opacity=".7"/>
+          <rect x="100" y="220" width="5" height="240" fill="#E8520A" opacity=".4"/>
+          <rect x="50" y="140" width="420" height="2" fill="#E8520A" opacity=".4"/>
+          <circle cx="480" cy="260" r="130" fill="none" stroke="#E8520A" stroke-width="1" opacity=".2"/>
+          <circle cx="480" cy="260" r="80" fill="none" stroke="#E8520A" stroke-width="1" opacity=".15"/>
+          <rect x="160" y="370" width="380" height="5" fill="#E8520A" opacity=".5"/>
+          <rect x="0" y="390" width="600" height="130" fill="#1a0800" opacity=".5"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:9rem;color:#E8520A;opacity:.08;line-height:1;user-select:none">DT</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Who We Are</div>
+      <h2>Donegal's<br>Premier<br><span style="color:var(--orange)">Gym</span></h2>
+      <p>Based in Drumroosk Business Park, DT Fitness has built a reputation as Donegal Town's go-to training ground. A welcoming, no-nonsense environment where everyone, total beginner to seasoned gym-goer, is made to feel at home.</p>
+      <p>Eddie and the team are always on the floor, giving tips, answering questions, and making sure you get the most from every session. Top quality equipment, clean facilities, free lockers, and a community that keeps you coming back.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">5.0</div>
+          <div class="stat-label">Google Rating</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">6AM</div>
+          <div class="stat-label">Open Daily</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">All</div>
+          <div class="stat-label">Levels Welcome</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGITFIT ACTIONS -->
+<section class="actions-section" id="schedule">
+  <div class="actions-header fade-up">
+    <div>
+      <div class="section-label">LegitFit Portal</div>
+      <h2>Train<br>Your Way</h2>
+    </div>
+    <p>Book classes, manage your membership and check live schedules, all through our LegitFit portal. No faff.</p>
+  </div>
+  <div class="action-cards fade-up">
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="action-card">
+      <div class="card-num">01</div>
+      <h3>View Schedule</h3>
+      <p>Check today's timetable and plan your sessions. Classes run throughout the day, every day.</p>
+      <span class="card-arrow">See Timetable</span>
+    </a>
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="action-card">
+      <div class="card-num">02</div>
+      <h3>Book a Class</h3>
+      <p>Reserve your spot in any group session in seconds. PT sessions too, sorted in a tap.</p>
+      <span class="card-arrow">Book Now</span>
+    </a>
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="action-card">
+      <div class="card-num">03</div>
+      <h3>Buy Membership</h3>
+      <p>Get started or manage your membership online. No contracts. No complications.</p>
+      <span class="card-arrow">Get Started</span>
+    </a>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-label fade-up">Google Reviews</div>
+  <h2 class="fade-up">What Members<br><span style="color:var(--orange)">Say</span></h2>
+  <div class="reviews-carousel fade-up" id="reviewsCarousel">
+    <div class="reviews-track-wrap">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">DT fitness is a brilliant gym with top notch equipment. This gym suits everyone of all abilities and ages. Great staff who are welcoming and encouraging. I would 110% recommend this gym for anyone no matter if you're a beginner or an expert.</p>
+        </div>
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">Top quality equipment and amazing atmosphere in this gym, very motivational environment which keeps you going through your session. Friendly staff who are always giving tips and assisting you with any questions. Couldn't recommend it more.</p>
+        </div>
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">A fantastic and welcoming environment with lots of like-minded people where the instructors are always on hand to give advice. Eddie and the team cater for all levels, through personal training or group classes. Couldn't recommend it enough.</p>
+        </div>
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">Great facility in Donegal Town, just recently joined but staff are knowledgeable and friendly, machines are as good as new and great selection! Changing rooms are clean and provide free lockers to members. It's a busy gym!</p>
+        </div>
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">Excellent gym, nice and clean equipment. Stairmaster was an added bonus to use.</p>
+        </div>
+        <div class="review-card">
+          <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="review-text">Small but fantastic gym, great personal trainers willing to give you helpful and concise advice.</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="reviewPrev" aria-label="Previous">←</button>
+      <button class="carousel-btn" id="reviewNext" aria-label="Next">→</button>
+      <div class="carousel-dots" id="reviewDots"></div>
+      <div class="reviews-rating">
+        <div class="r-num">5.0</div>
+        <div class="r-stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO BAR -->
+<div class="info-bar" id="contact">
+  <div class="info-item">
+    <h4>Opening Hours</h4>
+    <ul class="hours-list">
+      <li><span>Monday</span><span>Open 24 Hours</span></li>
+      <li><span>Tuesday</span><span>6am to 9pm</span></li>
+      <li><span>Wednesday</span><span>6am to 9pm</span></li>
+      <li><span>Thursday</span><span>6am to 9pm</span></li>
+      <li><span>Friday</span><span>6am to 9pm</span></li>
+      <li><span>Saturday</span><span>7am to 5pm</span></li>
+      <li><span>Sunday</span><span>9am to 3pm</span></li>
+    </ul>
+  </div>
+  <div class="info-item info-contact">
+    <h4>Get In Touch</h4>
+    <p>📞 <a href="tel:0749725403">(074) 972 5403</a></p>
+    <p>📍 Drumrooske Business Park, Donegal Town</p>
+    <div class="info-contact-btns">
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary" style="text-align:center">Join via LegitFit</a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline" style="text-align:center;border-color:rgba(255,255,255,.35)">Book a Class</a>
+    </div>
+  </div>
+  <div class="info-item">
+    <h4>Find Us</h4>
+    <p>Drumroosk West<br>Drumrooske Business Park<br>Donegal Town<br>Co. Donegal, Ireland</p>
+    <a href="https://maps.google.com/?q=DT+Fitness+Donegal+Town" target="_blank" class="directions-link">Get Directions</a>
+  </div>
+</div>
+
+<!-- SOCIAL STRIP -->
+<div class="insta-strip">
+  <div class="social-platforms">
+
+    <div class="insta-left">
+      <div class="insta-text">
+        <p>Instagram</p>
+        <strong>@dt_fitness_</strong>
+      </div>
+    </div>
+
+    <div class="social-divider"></div>
+
+    <div class="insta-left">
+      <div class="insta-text">
+        <p>Facebook</p>
+        <strong>DT Fitness</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="insta-right">
+    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="insta-btn insta-btn-primary">Follow on Instagram</a>
+    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="insta-btn fb-btn">Follow on Facebook</a>
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="insta-btn insta-btn-outline">Join Now</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">DT <span>FITNESS</span></a>
+  <p>2026 DT Fitness · Donegal Town</p>
+  <div class="footer-links">
+    <a href="https://app.legitfit.com/auth/login" target="_blank">Join</a>
+    <a href="tel:0749725403">Call</a>
+    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="footer-insta" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="footer-insta footer-fb" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="white"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ── Fade-up ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+/* ── Today's hours ── */
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const todayName = dayNames[new Date().getDay()];
+document.querySelectorAll('.hours-list li').forEach(li => {
+  li.classList.toggle('today', li.querySelector('span')?.textContent?.trim() === todayName);
+});
+
+/* ── Mobile Drawer ── */
+const menuBtn = document.getElementById('menuBtn');
+const drawer  = document.getElementById('mobileDrawer');
+const overlay = document.getElementById('drawerOverlay');
+
+function openDrawer() {
+  drawer.classList.add('open');
+  menuBtn.classList.add('open');
+  menuBtn.setAttribute('aria-expanded','true');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  drawer.classList.remove('open');
+  menuBtn.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+  document.body.style.overflow = '';
+}
+menuBtn.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+overlay.addEventListener('click', closeDrawer);
+document.querySelectorAll('.drawer-link, .drawer-cta').forEach(a => a.addEventListener('click', closeDrawer));
+
+/* ── Reviews Carousel ── */
+const track    = document.getElementById('reviewsTrack');
+const dotsWrap = document.getElementById('reviewDots');
+const cards    = Array.from(track.querySelectorAll('.review-card'));
+const N        = cards.length;
+let cur        = 0;
+let autoTimer  = null;
+
+function perView() { return window.innerWidth <= 768 ? 1 : 3; }
+function pages()   { return Math.ceil(N / perView()); }
+function cardW()   { return cards[0].getBoundingClientRect().width + (perView() === 1 ? 12 : 2); }
+
+function buildDots() {
+  dotsWrap.innerHTML = '';
+  for (let i = 0; i < pages(); i++) {
+    const btn = document.createElement('button');
+    btn.className = 'carousel-dot' + (i === cur ? ' active' : '');
+    btn.setAttribute('aria-label', 'Page ' + (i+1));
+    btn.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(btn);
+  }
+}
+function goTo(idx) {
+  cur = Math.max(0, Math.min(idx, pages() - 1));
+  track.style.transform = `translateX(-${cur * perView() * cardW()}px)`;
+  dotsWrap.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i === cur));
+}
+function startAuto() {
+  stopAuto();
+  autoTimer = setInterval(() => goTo(cur < pages()-1 ? cur+1 : 0), 5000);
+}
+function stopAuto() { clearInterval(autoTimer); }
+
+document.getElementById('reviewPrev').addEventListener('click', () => { goTo(cur-1); startAuto(); });
+document.getElementById('reviewNext').addEventListener('click', () => { goTo(cur+1); startAuto(); });
+
+let tx = 0, ty = 0;
+track.addEventListener('touchstart', e => {
+  tx = e.changedTouches[0].clientX;
+  ty = e.changedTouches[0].clientY;
+  stopAuto();
+}, {passive:true});
+track.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 36) goTo(dx < 0 ? cur+1 : cur-1);
+  startAuto();
+}, {passive:true});
+
+document.getElementById('reviewsCarousel').addEventListener('mouseenter', stopAuto);
+document.getElementById('reviewsCarousel').addEventListener('mouseleave', startAuto);
+
+let rTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(rTimer);
+  rTimer = setTimeout(() => { buildDots(); goTo(Math.min(cur, pages()-1)); }, 120);
+});
+
+buildDots(); goTo(0); startAuto();
+</script>
+</body>
+</html>
