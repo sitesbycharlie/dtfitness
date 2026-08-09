@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DT Fitness | Donegal Town</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,7 +21,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Barlow', sans-serif;
   background: var(--black);
   color: var(--white);
   overflow-x: hidden;
@@ -72,7 +72,7 @@ body {
 .nav-logo span { color: var(--orange); }
 .nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a {
-  text-decoration: none; font-size: 0.72rem; font-weight: 800;
+  text-decoration: none; font-size: 0.72rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
   color: rgba(255,255,255,.65); transition: color .2s;
 }
@@ -143,7 +143,7 @@ body {
 
 /* ── SHARED ── */
 .section-label {
-  font-size: .62rem; font-weight: 800; letter-spacing: 5px;
+  font-size: .62rem; font-weight: 700; letter-spacing: 5px;
   text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
 }
 h2 {
@@ -153,8 +153,8 @@ h2 {
 }
 .btn {
   display: inline-block; text-decoration: none;
-  font-family: 'Nunito', sans-serif; font-weight: 800;
-  letter-spacing: 1.5px; text-transform: uppercase;
+  font-family: 'Barlow', sans-serif; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
   font-size: .72rem; padding: 13px 28px;
   transition: all .22s; cursor: pointer; border: none;
 }
@@ -183,27 +183,10 @@ h2 {
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,.5) 50%, rgba(10,10,10,.15) 100%),
-    linear-gradient(105deg, rgba(232,82,10,.15) 0%, transparent 55%);
-  background-color: #1a0800;
+    linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,.7) 45%, rgba(10,10,10,.1) 100%),
+    linear-gradient(135deg, #0a0a0a 0%, #1a0a00 35%, #E8520A 100%);
 }
-.hero-deco {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
-}
-.hero-deco::before {
-  content: '';
-  position: absolute; right: -80px; top: -80px;
-  width: 600px; height: 600px;
-  border: 100px solid rgba(232,82,10,.06);
-  transform: rotate(15deg); border-radius: 60px;
-}
-.hero-deco::after {
-  content: '';
-  position: absolute; right: 60px; top: 60px;
-  width: 420px; height: 420px;
-  border: 2px solid rgba(232,82,10,.15);
-  transform: rotate(15deg); border-radius: 40px;
-}
+.hero-deco { display: none; }
 .hero-content {
   position: relative; z-index: 2;
   padding: 0 48px 80px;
@@ -228,9 +211,9 @@ h2 {
 }
 .hero h1 span { color: var(--orange); }
 .hero-sub {
-  font-size: .9rem; font-weight: 600;
-  color: rgba(255,255,255,.5); letter-spacing: .3px;
-  margin-bottom: 32px; max-width: 360px; line-height: 1.65;
+  font-size: .95rem; font-weight: 300;
+  color: rgba(255,255,255,.55); letter-spacing: .5px;
+  margin-bottom: 32px; max-width: 380px; line-height: 1.7;
 }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
@@ -244,7 +227,7 @@ h2 {
   animation: ticker 22s linear infinite;
 }
 .ticker-inner span {
-  font-family: 'Nunito', sans-serif; font-weight: 900;
+  font-family: 'Barlow', sans-serif; font-weight: 800;
   font-size: .78rem; letter-spacing: 3px; padding: 0 28px; text-transform: uppercase;
 }
 .ticker-inner .dot { color: rgba(255,255,255,.4); padding: 0 4px; }
@@ -279,8 +262,8 @@ h2 {
 }
 .about-text h2 { margin-bottom: 16px; }
 .about-text p {
-  color: rgba(255,255,255,.6); font-size: .88rem;
-  line-height: 1.7; font-weight: 600; margin-bottom: 12px;
+  color: rgba(255,255,255,.6); font-size: .9rem;
+  line-height: 1.75; font-weight: 300; margin-bottom: 12px;
 }
 .about-stats {
   display: grid; grid-template-columns: repeat(3, 1fr);
@@ -299,7 +282,7 @@ h2 {
   font-size: 2.4rem; color: var(--white); line-height: 1;
 }
 .stat-label {
-  font-size: .6rem; font-weight: 800; letter-spacing: 2px;
+  font-size: .6rem; font-weight: 700; letter-spacing: 2px;
   text-transform: uppercase; color: rgba(255,255,255,.4); margin-top: 4px;
 }
 
@@ -341,11 +324,11 @@ h2 {
   margin-top: 36px;
 }
 .action-card p {
-  font-size: .82rem; color: rgba(255,255,255,.5);
-  line-height: 1.6; font-weight: 600; margin-bottom: 20px;
+  font-size: .85rem; color: rgba(255,255,255,.5);
+  line-height: 1.6; font-weight: 300; margin-bottom: 20px;
 }
 .card-arrow {
-  font-size: .68rem; font-weight: 800; letter-spacing: 3px;
+  font-size: .68rem; font-weight: 700; letter-spacing: 3px;
   text-transform: uppercase; color: var(--orange);
   display: flex; align-items: center; gap: 8px;
   transition: gap .2s;
@@ -433,16 +416,16 @@ h2 {
 .hours-list { list-style: none; }
 .hours-list li {
   display: flex; justify-content: space-between;
-  font-size: .8rem; font-weight: 700;
+  font-size: .8rem; font-weight: 400;
   padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,.15);
   color: rgba(255,255,255,.85);
 }
-.hours-list li.today { color: var(--white); font-weight: 900; }
+.hours-list li.today { color: var(--white); font-weight: 700; }
 .info-contact p {
-  font-size: .85rem; font-weight: 700; margin-bottom: 6px;
+  font-size: .85rem; font-weight: 400; margin-bottom: 6px;
   color: rgba(255,255,255,.88);
 }
-.info-contact a { color: var(--white); text-decoration: none; font-weight: 900; }
+.info-contact a { color: var(--white); text-decoration: none; font-weight: 700; }
 .info-contact-btns { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
 .info-address p {
   font-size: .85rem; font-weight: 700;
@@ -490,7 +473,7 @@ h2 {
 }
 .insta-icon svg { width: 26px; height: 26px; fill: white; }
 .insta-text p {
-  font-size: .62rem; font-weight: 800; letter-spacing: 3px;
+  font-size: .62rem; font-weight: 700; letter-spacing: 3px;
   text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 2px;
 }
 .insta-text strong {
@@ -500,7 +483,7 @@ h2 {
 .insta-right { display: flex; gap: 10px; flex-wrap: wrap; }
 .insta-btn {
   display: inline-flex; align-items: center; gap: 8px;
-  text-decoration: none; font-weight: 800; font-size: .7rem;
+  text-decoration: none; font-weight: 700; font-size: .7rem;
   letter-spacing: 2px; text-transform: uppercase;
   padding: 12px 24px; transition: all .22s;
 }
@@ -553,11 +536,18 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   .nav-links { display: none; }
   .hamburger { display: flex; }
   .about-section, .actions-section, .reviews-section { padding: 48px 20px; }
+  .actions-header { text-align: center; justify-content: center; }
+  .actions-header p { text-align: center; max-width: 100%; }
   .about { grid-template-columns: 1fr; gap: 28px; }
   .about-visual { height: 220px; }
   .about-text { text-align: center; }
   .about-stats { border-top: 1px solid rgba(255,255,255,.08); }
-  .action-cards { grid-template-columns: 1fr; }
+  .action-cards { grid-template-columns: 1fr; gap: 3px; }
+  .action-card { padding: 24px 22px; text-align: center; }
+  .action-card h3 { font-size: 1.4rem; margin-top: 0; }
+  .action-card p { font-size: .8rem; }
+  .card-num { position: static; font-size: 2rem; color: rgba(232,82,10,.2); display: block; margin-bottom: 6px; }
+  .card-arrow { justify-content: center; }
   .info-bar { grid-template-columns: 1fr; padding: 36px 20px; gap: 28px; }
   .insta-strip { padding: 28px 20px; }
   .social-platforms { gap: 20px; }
