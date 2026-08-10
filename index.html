@@ -4,6 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DT Fitness | Donegal Town</title>
+<meta name="description" content="DT Fitness is Donegal Town's premier gym. Top quality equipment, personal training, group classes and a welcoming community. Join via LegitFit today.">
+<meta property="og:title" content="DT Fitness | Donegal Town">
+<meta property="og:description" content="Donegal's go-to gym. 5.0 stars on Google. Join, book classes or view the schedule online.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dtfitness.ie">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "DT Fitness",
+  "description": "Donegal Town's premier gym offering personal training, group classes and top quality equipment.",
+  "url": "https://dtfitness.ie",
+  "telephone": "+353749725403",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Drumroosk West, Drumrooske Business Park",
+    "addressLocality": "Donegal Town",
+    "addressRegion": "Co. Donegal",
+    "addressCountry": "IE"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "06:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "06:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "06:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "06:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "06:00", "closes": "21:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "07:00", "closes": "17:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "15:00" }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "41"
+  },
+  "sameAs": [
+    "https://www.instagram.com/dt_fitness_/",
+    "https://www.facebook.com/share/1DQSwzMaed/"
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,700&display=swap" rel="stylesheet">
 <style>
@@ -586,6 +626,90 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   transition: color .2s;
 }
 .built-by a:hover { color: var(--orange); }
+
+/* ── STICKY MOBILE CTA ── */
+.sticky-cta {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 500;
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 56px;
+}
+.sticky-cta a {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: .72rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  transition: opacity .2s;
+}
+.sticky-cta a:active { opacity: .8; }
+.sticky-cta .scta-join { background: var(--orange); color: var(--white); }
+.sticky-cta .scta-call { background: var(--dark); color: var(--white); border-top: 1px solid rgba(255,255,255,.08); }
+@media (min-width: 901px) { .sticky-cta { display: none !important; } }
+@media (max-width: 900px) { .sticky-cta { display: grid; } body { padding-bottom: 56px; } }
+
+/* ── FAQ ── */
+.faq-section { background: var(--dark); padding: 56px 72px; }
+.faq-list { margin-top: 36px; display: flex; flex-direction: column; gap: 2px; }
+.faq-item { background: var(--mid); overflow: hidden; }
+.faq-question {
+  width: 100%; background: none; border: none;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px; cursor: pointer; text-align: left;
+  font-family: 'Barlow', sans-serif; font-size: .95rem;
+  font-weight: 700; color: var(--white);
+  transition: color .2s;
+}
+.faq-question:hover { color: var(--orange); }
+.faq-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .8rem; color: var(--orange);
+  transition: transform .3s, border-color .2s;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--orange); }
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+  padding: 0 24px;
+  font-size: .88rem; font-weight: 300; color: rgba(255,255,255,.6);
+  line-height: 1.75;
+}
+.faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 18px; }
+@media (max-width: 900px) { .faq-section { padding: 48px 20px; } }
+
+/* ── PRIVACY POLICY PAGE ── */
+.privacy-page {
+  display: none; position: fixed; inset: 0; z-index: 600;
+  background: var(--black); overflow-y: auto;
+  padding: 80px 0 40px;
+}
+.privacy-page.open { display: block; }
+.privacy-inner {
+  max-width: 680px; margin: 0 auto; padding: 0 24px;
+}
+.privacy-inner h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; color: var(--white); margin-bottom: 8px;
+}
+.privacy-inner h2 {
+  font-size: 1rem; font-weight: 700; color: var(--orange);
+  margin: 28px 0 8px; letter-spacing: 1px;
+  font-family: 'Barlow', sans-serif; text-transform: none;
+}
+.privacy-inner p {
+  font-size: .9rem; font-weight: 300; color: rgba(255,255,255,.65);
+  line-height: 1.8; margin-bottom: 12px;
+}
+.privacy-close {
+  position: fixed; top: 20px; right: 24px;
+  background: var(--mid); border: none; color: var(--white);
+  font-size: 1.2rem; cursor: pointer; width: 40px; height: 40px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 601; transition: background .2s;
+}
+.privacy-close:hover { background: var(--orange); }
 </style>
 </head>
 <body>
@@ -604,6 +728,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
     <li><a href="#about">About</a></li>
     <li><a href="#schedule">Training</a></li>
     <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="https://app.legitfit.com/auth/login" target="_blank" class="nav-cta">Join Now</a></li>
   </ul>
@@ -619,6 +744,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
     <a href="#about" class="drawer-link">About</a>
     <a href="#schedule" class="drawer-link">Training</a>
     <a href="#reviews" class="drawer-link">Reviews</a>
+    <a href="#faq" class="drawer-link">FAQ</a>
     <a href="#contact" class="drawer-link">Contact</a>
     <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="drawer-link">Instagram</a>
     <a href="https://app.legitfit.com/auth/login" target="_blank" class="drawer-cta">Join Now</a>
@@ -774,12 +900,61 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-label fade-up">FAQ</div>
+  <h2 class="fade-up">Got Questions?</h2>
+  <div class="faq-list fade-up">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How do I join DT Fitness?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">You can join directly through our LegitFit portal online. Pick the membership that suits you, sign up in minutes, and you are ready to go. You are also welcome to call into the gym and the team will sort you out in person.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do I need experience to join?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Not at all. DT Fitness welcomes everyone from complete beginners to experienced gym-goers. Eddie and the team are always on the floor to help, guide and motivate you at whatever level you are starting from.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What classes and training options are available?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">We offer a fully equipped weights floor, cardio suite, functional training area, group classes, and one-to-one personal training sessions. You can view the live schedule and book your spot through the LegitFit portal.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What are your opening hours?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">We are open Monday to Friday 6am to 9pm, Saturday 7am to 5pm, and Sunday 9am to 3pm. You are also welcome to call into the gym in person and the team will be happy to help with any questions about membership or classes.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Is there parking at the gym?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">Yes. DT Fitness is located at Drumrooske Business Park, Donegal Town, with free parking available on site. Easy to find, easy to get to.</div>
+    </div>
+
+  </div>
+</section>
+
 <!-- INFO BAR -->
 <div class="info-bar" id="contact">
   <div class="info-item">
     <h4>Opening Hours</h4>
     <ul class="hours-list">
-      <li><span>Monday</span><span>Open 24 Hours</span></li>
+      <li><span>Monday</span><span>6am to 9pm</span></li>
       <li><span>Tuesday</span><span>6am to 9pm</span></li>
       <li><span>Wednesday</span><span>6am to 9pm</span></li>
       <li><span>Thursday</span><span>6am to 9pm</span></li>
@@ -840,6 +1015,8 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   <div class="footer-links">
     <a href="https://app.legitfit.com/auth/login" target="_blank">Join</a>
     <a href="tel:0749725403">Call</a>
+    <a href="#faq">FAQ</a>
+    <button id="privacyBtn" style="background:none;border:none;cursor:pointer;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);font-family:'Barlow',sans-serif;transition:color .2s;" onmouseover="this.style.color='#E8520A'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Privacy</button>
     <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="footer-insta" aria-label="Instagram">
       <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     </a>
@@ -850,6 +1027,49 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
 </footer>
 <div class="built-by">
   Built by <a href="https://sitesbycharlie.ie" target="_blank">sitesbycharlie.ie</a>
+</div>
+
+<!-- STICKY MOBILE CTA -->
+<div class="sticky-cta">
+  <a href="https://app.legitfit.com/auth/login" target="_blank" class="scta-join">Join Now</a>
+  <a href="tel:0749725403" class="scta-call">Call Us</a>
+</div>
+
+<!-- PRIVACY POLICY OVERLAY -->
+<div class="privacy-page" id="privacyPage">
+  <button class="privacy-close" id="privacyClose" aria-label="Close">✕</button>
+  <div class="privacy-inner">
+    <h1>Privacy Policy</h1>
+    <p>Last updated: August 2026. DT Fitness is committed to protecting your privacy in accordance with the EU General Data Protection Regulation (GDPR) and the Irish Data Protection Act 2018.</p>
+
+    <h2>Data Controller</h2>
+    <p>The data controller for this website is DT Fitness, Drumrooske Business Park, Donegal Town, Co. Donegal, Ireland. Phone: (074) 972 5403.</p>
+
+    <h2>What Personal Data We Collect</h2>
+    <p>This website itself does not collect personal data directly. If you contact us by phone or in person, we may retain your name and contact details for the purpose of responding to your enquiry. If you use our LegitFit portal to purchase a membership or book a class, LegitFit processes your data under their own privacy policy.</p>
+    <p>We use Google Analytics to collect anonymous information about how visitors use this website, including pages visited, time spent on the site, and approximate geographic location at country or city level. This data does not identify you personally.</p>
+
+    <h2>Legal Basis for Processing</h2>
+    <p>Where we process personal data, we do so on the following legal bases under GDPR Article 6: (a) your consent, where given; (b) our legitimate interest in understanding how our website is used and improving our services; and (c) compliance with a legal obligation where applicable.</p>
+
+    <h2>Cookies</h2>
+    <p>Google Analytics uses cookies — small text files stored on your device — to distinguish visitors and analyse traffic. These cookies do not identify you personally. You can refuse or delete cookies through your browser settings at any time without affecting your ability to use this site.</p>
+
+    <h2>How Long We Keep Your Data</h2>
+    <p>Google Analytics data is retained for 14 months by default. Any personal data you provide when contacting us directly is kept only for as long as necessary to respond to your enquiry and is then securely deleted.</p>
+
+    <h2>Who We Share Your Data With</h2>
+    <p>We do not sell, rent or trade your personal data. Anonymous analytics data is processed by Google LLC under Google's Data Processing Terms. Google may transfer this data outside the EU under Standard Contractual Clauses approved by the European Commission. We have no other third-party data sharing arrangements.</p>
+
+    <h2>Your Rights Under GDPR</h2>
+    <p>You have the following rights regarding your personal data: the right to access the data we hold about you; the right to have inaccurate data corrected; the right to request erasure of your data; the right to restrict or object to processing; and the right to data portability where applicable. To exercise any of these rights, contact us at (074) 972 5403 or call into the gym in person.</p>
+
+    <h2>Right to Lodge a Complaint</h2>
+    <p>If you believe your data protection rights have been infringed, you have the right to lodge a complaint with the Irish Data Protection Commission (DPC) at dataprotection.ie, or with the supervisory authority in your country of residence.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Any changes will be posted on this page with an updated date. We encourage you to review this policy periodically.</p>
+  </div>
 </div>
 
 <script>
@@ -946,6 +1166,23 @@ window.addEventListener('resize', () => {
 });
 
 buildDots(); goTo(0); startAuto();
+
+/* ── FAQ Accordion ── */
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ── Privacy Policy ── */
+const privacyPage = document.getElementById('privacyPage');
+const privacyBtn  = document.getElementById('privacyBtn');
+const privacyClose = document.getElementById('privacyClose');
+if (privacyBtn) privacyBtn.addEventListener('click', () => { privacyPage.classList.add('open'); document.body.style.overflow = 'hidden'; });
+if (privacyClose) privacyClose.addEventListener('click', () => { privacyPage.classList.remove('open'); document.body.style.overflow = ''; });
 
 /* ── GRAINIENT HERO SHADER ── */
 (function() {
