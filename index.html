@@ -191,71 +191,217 @@ h2 {
   font-size: clamp(2.2rem, 5vw, 4rem);
   line-height: .95; letter-spacing: 1px; text-transform: uppercase;
 }
+/* ── ANIMATED BUTTONS ── */
 .btn {
-  display: inline-block; text-decoration: none;
-  font-family: 'Barlow', sans-serif; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase;
-  font-size: .72rem; padding: 13px 28px;
-  transition: all .22s; cursor: pointer; border: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 36px;
+  border: 2px solid transparent;
+  font-family: 'Barlow', sans-serif;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  white-space: nowrap;
 }
-.btn-primary {
-  background: var(--orange); color: var(--white);
-  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+.btn svg.arr-1, .btn svg.arr-2 {
+  position: absolute;
+  width: 18px;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.btn-primary:hover { background: var(--orange-dim); }
-.btn-outline {
-  background: transparent; color: var(--white);
-  border: 1.5px solid rgba(255,255,255,.25);
-  clip-path: polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+.btn svg.arr-1 { right: 16px; }
+.btn svg.arr-2 { left: -25%; }
+.btn .btn-circle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
-.btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+.btn .btn-text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-10px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.btn:hover svg.arr-1 { right: -25%; }
+.btn:hover svg.arr-2 { left: 16px; }
+.btn:hover .btn-text { transform: translateX(10px); }
+.btn:hover .btn-circle { width: 240px; height: 240px; opacity: 1; }
+.btn:hover { border-radius: 6px; box-shadow: 0 0 0 12px transparent; }
+.btn:active { scale: 0.96; }
 
-.fade-up { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+/* Primary — orange fill, white on hover */
+.btn-primary {
+  color: var(--white);
+  background: var(--orange);
+  box-shadow: 0 0 0 2px var(--orange);
+}
+.btn-primary svg { fill: var(--white); }
+.btn-primary .btn-circle { background: var(--white); }
+.btn-primary:hover { color: var(--orange); }
+.btn-primary:hover svg { fill: var(--orange); }
+.btn-primary:active { box-shadow: 0 0 0 4px var(--orange); }
+
+/* Outline — white border, orange fill on hover */
+.btn-outline {
+  color: var(--white);
+  background: transparent;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.35);
+}
+.btn-outline svg { fill: var(--white); }
+.btn-outline .btn-circle { background: var(--orange); }
+.btn-outline:hover { color: var(--white); box-shadow: 0 0 0 12px transparent; }
+.btn-outline:hover svg { fill: var(--white); }
+.btn-outline:active { box-shadow: 0 0 0 4px rgba(255,255,255,.35); }
+
+/* Orange context (info bar) — white border, white fill on hover */
+.btn-outline-white {
+  color: var(--white);
+  background: transparent;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.4);
+}
+.btn-outline-white svg { fill: var(--white); }
+.btn-outline-white .btn-circle { background: rgba(255,255,255,.25); }
+.btn-outline-white:hover { color: var(--white); box-shadow: 0 0 0 12px transparent; }
+.btn-outline-white:active { box-shadow: 0 0 0 4px rgba(255,255,255,.4); }
+
+/* ── SCROLL PROGRESS ── */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; z-index: 999;
+  height: 2px; width: 0%;
+  background: var(--orange);
+  transition: width .1s linear;
+  pointer-events: none;
+}
+
+/* ── SCROLL HINT ── */
+.scroll-hint {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  opacity: 0; animation: hintFade 1s ease 1.2s forwards;
+}
+.scroll-hint span {
+  font-size: .6rem; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,.3);
+}
+.scroll-hint-chevron {
+  width: 18px; height: 18px;
+  border-right: 1.5px solid rgba(255,255,255,.25);
+  border-bottom: 1.5px solid rgba(255,255,255,.25);
+  transform: rotate(45deg);
+  animation: chevronBounce 1.4s ease-in-out infinite;
+}
+@keyframes hintFade { to { opacity: 1; } }
+@keyframes chevronBounce {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%       { transform: rotate(45deg) translateY(5px); }
+}
+
+/* ── STAGGERED FADE ── */
+.fade-up {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .65s ease, transform .65s ease;
+}
 .fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up:nth-child(2) { transition-delay: .1s; }
+.fade-up:nth-child(3) { transition-delay: .2s; }
+.fade-up:nth-child(4) { transition-delay: .3s; }
+
+/* ── SECTION TRANSITIONS ── */
+section, .info-bar, .insta-strip, .ticker { scroll-margin-top: 108px; }
+
+/* ── ACTIVE NAV ── */
+.nav-links a.active { color: var(--orange); }
 
 /* ── HERO ── */
 .hero {
   min-height: 100svh;
   position: relative;
-  display: flex; align-items: flex-end;
+  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  text-align: center;
 }
-.hero-bg {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,.7) 45%, rgba(10,10,10,.1) 100%),
-    linear-gradient(135deg, #0a0a0a 0%, #1a0a00 35%, #E8520A 100%);
-}
+.hero-bg { display: none; }
 .hero-deco { display: none; }
 .hero-content {
   position: relative; z-index: 2;
-  padding: 0 48px 80px;
-  max-width: 860px;
+  padding: 120px 48px 80px;
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center;
 }
-.hero-eyebrow {
-  font-size: .62rem; font-weight: 800; letter-spacing: 6px;
-  text-transform: uppercase; color: var(--orange);
-  margin-bottom: 14px;
-  display: flex; align-items: center; gap: 12px;
+
+/* ── DEPTH TEXT ── */
+.depth-text-wrap { width: 100%; margin-bottom: 28px; }
+.depth-text {
+  display: inline-block;
+  perspective: 900px;
+  perspective-origin: 50% 48%;
+  isolation: isolate;
+  cursor: default;
 }
-.hero-eyebrow::before {
-  content: ''; display: block;
-  width: 28px; height: 2px; background: var(--orange);
+.depth-text__stage {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  transform: rotateX(-2.4deg) rotateY(3.15deg);
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
-.hero h1 {
+.depth-text__layer,
+.depth-text__face {
+  grid-area: 1 / 1;
+  display: inline-block;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4.5rem, 16vw, 10rem);
-  line-height: .88; letter-spacing: -1px;
-  color: var(--white); text-transform: uppercase;
-  margin-bottom: 20px;
+  font-size: clamp(3.8rem, 14vw, 9rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -1px;
+  white-space: pre;
+  user-select: none;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  text-rendering: geometricPrecision;
+  text-transform: uppercase;
+  text-align: center;
 }
-.hero h1 span { color: var(--orange); }
+.depth-text__layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  filter: saturate(0.9) brightness(0.85);
+  pointer-events: none;
+}
+.depth-text__face {
+  position: relative;
+  z-index: 1;
+  color: #E8520A;
+  text-shadow:
+    0 22px 34px rgba(232,82,10,.28),
+    0 4px 8px rgba(0,0,0,.4);
+  transform: translateZ(0.6px);
+}
+
 .hero-sub {
   font-size: .95rem; font-weight: 300;
   color: rgba(255,255,255,.55); letter-spacing: .5px;
-  margin-bottom: 32px; max-width: 380px; line-height: 1.7;
+  margin-bottom: 32px; max-width: 420px; line-height: 1.7;
 }
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) { .depth-text__stage { will-change: auto; } }
+@media (max-width: 768px) { .hero-content { padding: 100px 24px 72px; } }
 
 /* ── TICKER ── */
 .ticker {
@@ -713,6 +859,7 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
 </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- DEMO BANNER -->
 <div class="demo-banner">
@@ -753,18 +900,37 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <canvas id="grainientCanvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+  <div style="position:absolute;inset:0;background:#000;z-index:0;"></div>
   <div class="hero-content">
-    <h1>Witness<br>The <span>Fitness</span></h1>
+    <div class="depth-text-wrap" id="depthTextWrap">
+      <span class="depth-text" id="depthRoot">
+        <span class="depth-text__stage" id="depthStage">
+          <!-- layers injected by JS -->
+          <span class="depth-text__face">Witness<br>The Fitness</span>
+        </span>
+      </span>
+    </div>
     <p class="hero-sub">Top quality equipment. Motivational atmosphere. Staff who actually give a damn. Donegal's home for serious training.</p>
     <div class="hero-actions">
-      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary">Join Now</a>
-      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline">View Schedule</a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+        <span class="btn-text">Join Now</span>
+        <span class="btn-circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      </a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+        <span class="btn-text">View Schedule</span>
+        <span class="btn-circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      </a>
     </div>
   </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-hint-chevron"></div>
+  </div>
 </section>
-
-<!-- TICKER -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-inner">
     <span>DT FITNESS</span><span class="dot">✦</span>
@@ -968,8 +1134,18 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
     <p>📞 <a href="tel:0749725403">(074) 972 5403</a></p>
     <p>📍 Drumrooske Business Park, Donegal Town</p>
     <div class="info-contact-btns">
-      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary" style="text-align:center">Join via LegitFit</a>
-      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline" style="text-align:center;border-color:rgba(255,255,255,.35)">Book a Class</a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary" style="justify-content:center">
+        <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+        <span class="btn-text">Join via LegitFit</span>
+        <span class="btn-circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      </a>
+      <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline-white" style="justify-content:center">
+        <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+        <span class="btn-text">Book a Class</span>
+        <span class="btn-circle"></span>
+        <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      </a>
     </div>
   </div>
   <div class="info-item">
@@ -1002,9 +1178,24 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   </div>
 
   <div class="insta-right">
-    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="insta-btn insta-btn-primary">Follow on Instagram</a>
-    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="insta-btn fb-btn">Follow on Facebook</a>
-    <a href="https://app.legitfit.com/auth/login" target="_blank" class="insta-btn insta-btn-outline">Join Now</a>
+    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      <span class="btn-text">Follow on Instagram</span>
+      <span class="btn-circle"></span>
+      <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="btn btn-outline">
+      <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      <span class="btn-text">Follow on Facebook</span>
+      <span class="btn-circle"></span>
+      <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+    </a>
+    <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-outline">
+      <svg viewBox="0 0 24 24" class="arr-2"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+      <span class="btn-text">Join Now</span>
+      <span class="btn-circle"></span>
+      <svg viewBox="0 0 24 24" class="arr-1"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"/></svg>
+    </a>
   </div>
 </div>
 
@@ -1078,6 +1269,36 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+/* ── Scroll progress bar ── */
+const progressBar = document.getElementById('scrollProgress');
+const scrollHint  = document.querySelector('.scroll-hint');
+let hintHidden = false;
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+
+  if (!hintHidden && scrolled > 60) {
+    if (scrollHint) { scrollHint.style.opacity = '0'; scrollHint.style.transition = 'opacity .4s'; }
+    hintHidden = true;
+  }
+}, { passive: true });
+
+/* ── Active nav highlight ── */
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+const sections = document.querySelectorAll('section[id], div[id="contact"]');
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => navObserver.observe(s));
 
 /* ── Today's hours ── */
 const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -1184,6 +1405,99 @@ const privacyClose = document.getElementById('privacyClose');
 if (privacyBtn) privacyBtn.addEventListener('click', () => { privacyPage.classList.add('open'); document.body.style.overflow = 'hidden'; });
 if (privacyClose) privacyClose.addEventListener('click', () => { privacyPage.classList.remove('open'); document.body.style.overflow = ''; });
 
+/* ── DEPTH TEXT ── */
+(function() {
+  const LAYERS = 34;
+  const DEPTH  = 2.4;
+  const TILT   = 7.5;
+  const ORBIT_SPEED = 0.35;
+  const SMOOTHING   = 0.14;
+  const FACE_COLOR  = '#E8520A';
+  const DEPTH_COLOR = '#1a0800';
+  const TEXT = 'Witness\nThe Fitness';
+
+  const root  = document.getElementById('depthRoot');
+  const stage = document.getElementById('depthStage');
+  const face  = stage.querySelector('.depth-text__face');
+  if (!root || !stage) return;
+
+  // Set face text via pre-wrap
+  face.style.whiteSpace = 'pre';
+  face.textContent = TEXT;
+
+  // Inject layers behind the face
+  for (let i = LAYERS; i >= 1; i--) {
+    const progress = (LAYERS - i + 1) / LAYERS;
+    const eased = progress * progress;
+    const mix = Math.round((1 - eased) * 72 + 4);
+    const layer = document.createElement('span');
+    layer.className = 'depth-text__layer';
+    layer.setAttribute('aria-hidden', 'true');
+    layer.textContent = TEXT;
+    layer.style.transform = `translateZ(${-i * DEPTH}px)`;
+    // Simple color interpolation: orange face -> dark depth
+    layer.style.color = `color-mix(in srgb, ${FACE_COLOR} ${mix}%, ${DEPTH_COLOR})`;
+    stage.insertBefore(layer, face);
+  }
+
+  const baseX = -TILT * 0.32;
+  const baseY =  TILT * 0.42;
+  const cur = { x: baseX, y: baseY };
+  const tgt = { x: baseX, y: baseY };
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    stage.style.transform = `rotateX(${baseX}deg) rotateY(${baseY}deg)`;
+    return;
+  }
+
+  // Touch tracking for mobile
+  let touching = false;
+  root.addEventListener('touchmove', e => {
+    const touch = e.touches[0];
+    const rect = root.getBoundingClientRect();
+    const x = Math.max(-1, Math.min(1, (touch.clientX - (rect.left + rect.width  / 2)) / (rect.width  * 0.8)));
+    const y = Math.max(-1, Math.min(1, (touch.clientY - (rect.top  + rect.height / 2)) / (rect.height * 0.8)));
+    tgt.x = baseX - y * TILT;
+    tgt.y = baseY + x * TILT;
+    touching = true;
+  }, { passive: true });
+  root.addEventListener('touchend', () => {
+    touching = false;
+    tgt.x = baseX; tgt.y = baseY;
+  }, { passive: true });
+
+  // Pointer tracking for desktop
+  let hovering = false;
+  window.addEventListener('pointermove', e => {
+    const rect = root.getBoundingClientRect();
+    const x = Math.max(-1, Math.min(1, (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  * 0.8)));
+    const y = Math.max(-1, Math.min(1, (e.clientY - (rect.top  + rect.height / 2)) / (rect.height * 0.8)));
+    tgt.x = baseX - y * TILT;
+    tgt.y = baseY + x * TILT;
+    hovering = true;
+  });
+  window.addEventListener('pointerleave', () => {
+    hovering = false;
+    tgt.x = baseX; tgt.y = baseY;
+  });
+
+  const t0 = performance.now();
+  const tick = now => {
+    if (!hovering && !touching) {
+      const elapsed = (now - t0) / 1000;
+      const orbit = elapsed * ORBIT_SPEED * Math.PI * 2;
+      tgt.x = baseX + Math.sin(orbit) * TILT * 0.45;
+      tgt.y = baseY + Math.cos(orbit * 0.85) * TILT * 0.45;
+    }
+    cur.x += (tgt.x - cur.x) * SMOOTHING;
+    cur.y += (tgt.y - cur.y) * SMOOTHING;
+    stage.style.transform = `rotateX(${cur.x.toFixed(3)}deg) rotateY(${cur.y.toFixed(3)}deg)`;
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+})();
+
 /* ── GRAINIENT HERO SHADER ── */
 (function() {
   const canvas = document.getElementById('grainientCanvas');
@@ -1270,8 +1584,8 @@ void main(){
   col=pow(max(col,0.0),vec3(1.0/max(uGamma,0.001)));
   col=clamp(col,0.0,1.0);
   // Darken bottom third so text is always readable
-  float darken = smoothstep(0.4, 0.0, uv.y);
-  col = mix(col, vec3(0.04, 0.02, 0.01), darken * 0.85);
+  float darken = smoothstep(0.7, 0.0, uv.y);
+  col = mix(col, vec3(0.02, 0.01, 0.0), darken * 0.96);
   fragColor=vec4(col,1.0);
 }
 ` : `
@@ -1328,8 +1642,8 @@ void main(){
   col+=(grain-0.5)*uGrainAmount;
   col=(col-0.5)*uContrast+0.5;
   col=clamp(col,0.0,1.0);
-  float darken=smoothstep(0.4,0.0,uv.y);
-  col=mix(col,vec3(0.04,0.02,0.01),darken*0.85);
+  float darken=smoothstep(0.7,0.0,uv.y);
+  col=mix(col,vec3(0.02,0.01,0.0),darken*0.96);
   gl_FragColor=vec4(col,1.0);
 }
 `;
@@ -1387,9 +1701,9 @@ void main(){
   gl.uniform2f(U.uCenterOffset, 0.0, 0.0);
   gl.uniform1f(U.uZoom, 0.9);
   // Orange, black, deep orange
-  gl.uniform3f(U.uColor1, 0.91, 0.32, 0.04);  // #E8520A
-  gl.uniform3f(U.uColor2, 0.04, 0.02, 0.01);  // near black
-  gl.uniform3f(U.uColor3, 0.91, 0.32, 0.04);  // #E8520A
+  gl.uniform3f(U.uColor1, 0.72, 0.25, 0.03);  // darker orange
+  gl.uniform3f(U.uColor2, 0.02, 0.01, 0.0);   // near black
+  gl.uniform3f(U.uColor3, 0.72, 0.25, 0.03);  // darker orange
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
