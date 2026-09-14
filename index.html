@@ -337,6 +337,7 @@ h2 {
 }
 .drawer-cta:hover { background: #ff6a1f !important; }
 
+
 /* ── SCROLL PROGRESS ── */
 .scroll-progress {
   position: fixed; top: 0; left: 0; z-index: 999;
@@ -768,7 +769,11 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   .social-platforms { gap: 16px; }
   .social-divider { display: none; }
   .insta-right { width: 100%; gap: 8px; }
-  .insta-right .btn { flex: 1; justify-content: center; font-size: .65rem; padding: 12px 16px; }
+  .insta-right .btn { flex: 1; justify-content: center; font-size: .65rem; padding: 12px 10px; }
+  .insta-right .btn-insta .btn-text,
+  .insta-right .btn-fb .btn-text { font-size: 0; display: block; }
+  .insta-right .btn-insta .btn-text::after { content: 'Instagram'; font-size: .65rem; font-weight: 700; letter-spacing: 2px; }
+  .insta-right .btn-fb .btn-text::after { content: 'Facebook'; font-size: .65rem; font-weight: 700; letter-spacing: 2px; }
 
   footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
@@ -1212,10 +1217,10 @@ footer p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px;
   </div>
 
   <div class="insta-right">
-    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="btn btn-outline">
+    <a href="https://www.instagram.com/dt_fitness_/" target="_blank" class="btn btn-outline btn-insta">
       <span class="btn-text">Follow on Instagram</span>
     </a>
-    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="btn btn-outline">
+    <a href="https://www.facebook.com/share/1DQSwzMaed/?mibextid=wwXIfr" target="_blank" class="btn btn-outline btn-fb">
       <span class="btn-text">Follow on Facebook</span>
     </a>
     <a href="https://app.legitfit.com/auth/login" target="_blank" class="btn btn-primary btn-join">
